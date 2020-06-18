@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from apps.learning_logs.models import Topic
+from apps.learning_logs.models import Topic, Entry
 from django.shortcuts import redirect
 from apps.learning_logs.forms import TopicForm, EntryForm
 
@@ -48,3 +48,19 @@ def new_entry(request, topic_id):
             return redirect('learning_logs:topic', topic_id=topic_id)
     context = {'topic': topic, 'form': form}
     return render(request, 'learning_logs/new_entry.html', context)
+
+
+def edit_entry(request, entry_id):
+    entry = Entry.objects.get(id=entry_id)
+    topic = entry.topic
+
+    if request.method != 'POST':
+        form = EntryForm(instance=entry)
+    else:
+        form = EntryForm(instance=entry, data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('learning_logs:topic', topic_id=topic.id)
+
+    context = {'entry': entry, 'topic': topic, 'form': form}
+    return render(request, 'learning_logs/edit_entry.html', context)
