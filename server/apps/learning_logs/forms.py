@@ -1,6 +1,6 @@
 from django import forms
 
-from apps.learning_logs.models import Topic
+from apps.learning_logs.models import Topic, Entry
 
 
 class TopicForm(forms.ModelForm):
@@ -8,3 +8,11 @@ class TopicForm(forms.ModelForm):
         model = Topic
         fields = ['text']
         labels = {'text': ''}
+
+
+class EntryForm(forms.ModelForm):
+    class Meta:
+        model = Entry
+        fields = ['text']
+        labels = {'text': 'Entry:'}
+        widgets = {'text': forms.Textarea(attrs={'cols': 80})}
