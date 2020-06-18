@@ -1,8 +1,8 @@
 from django.urls import path
 
-from . import views
+import apps.learning_logs.views as views
 
-app_name = 'learning_logs_app'
+app_name = 'learning_logs'
 urlpatterns = [
     path('', views.index, name='index'),
     path('topics/', views.topics, name='topics'),
